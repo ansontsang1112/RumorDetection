@@ -1,16 +1,17 @@
 import pandas as pd
 
-import wordSchemaProcessingModel
+from algorithm import vectorization
+from model import wordSchemaProcessingModel
 
 
 def scoring(string: str):
     score = {
-        "true": 4,
-        "mostly-true": 3,
-        "half-true": 2,
-        "barely-true": 1,
-        "false": 0,
-        "pants-fire": -1
+        "true": 1,
+        "mostly-true": 0.7,
+        "half-true": 0.5,
+        "barely-true": 0.3,
+        "false": 0.2,
+        "pants-fire": 0
     }
     return score[string]
 
@@ -28,23 +29,23 @@ def wordScoringModel(rowData: {}):
 
 
 def combainedScoreModel(inputDataFrame: pd.DataFrame):
-    fullyScoringModel = {}
-
-    uniqueness, wordCount = [], {}
+    fullyScoringModel, uniqueness, processCounter = {}, [], 0
 
     for _, row in inputDataFrame.T.items():
         requestHeader = {}
         sentence, statement = row['subjects'], row['statement']
         requestHeader['subjects'], requestHeader['statement'] = sentence, statement
         singleSentenceScore = wordScoringModel(requestHeader)
+        vectorized_data = vectorization.tf_idf_vectorizer(requestHeader['subjects'], inputDataFrame)
 
         for word in singleSentenceScore:
             if word in fullyScoringModel:
-                fullyScoringModel[word] += singleSentenceScore[word]
-                wordCount[word] += 1
+                fullyScoringModel[word] += (singleSentenceScore[word] * vectorized_data[word])
             else:
-                fullyScoringModel[word] = singleSentenceScore[word]
-                wordCount[word] = 1
+                fullyScoringModel[word] = (singleSentenceScore[word] * vectorized_data[word])
                 uniqueness.append(word)
+
+        processCounter += 1
+        print(f"Modeling Process: {processCounter} / {len(inputDataFrame)}")
 
     return fullyScoringModel

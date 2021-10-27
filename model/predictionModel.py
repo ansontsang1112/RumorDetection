@@ -1,5 +1,4 @@
 import nltk
-import pandas as pd
 
 
 def predictByWordScore(model: {}, sentence: str):

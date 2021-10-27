@@ -1,7 +1,6 @@
 import math
 
-import predictionModel
-import scoringModel
+from model import predictionModel, scoringModel
 
 
 def testAccuracy(trainSet, testSet):
