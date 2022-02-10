@@ -1,7 +1,6 @@
 import pandas as pd
 
 from algorithm import vectorization
-from model import wordSchemaProcessingModel
 
 
 def scoring(string: str):
@@ -19,7 +18,7 @@ def scoring(string: str):
 def wordScoringModel(rowData: {}):
     # Take the row data from Dataset
     statementScore = scoring(rowData['statement'].lower())
-    sentenceSet = wordSchemaProcessingModel.wordProcessingModel(rowData['subjects'])
+    sentenceSet = vectorization.bagOfWord(rowData['subjects'])
     scoreDict = {}
 
     for word in sentenceSet:
@@ -47,5 +46,6 @@ def combainedScoreModel(inputDataFrame: pd.DataFrame):
 
         processCounter += 1
         print(f"Modeling Process: {processCounter} / {len(inputDataFrame)}")
+
 
     return fullyScoringModel

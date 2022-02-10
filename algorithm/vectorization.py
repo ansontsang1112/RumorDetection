@@ -1,8 +1,22 @@
 import math
 
 import pandas as pd
+import nltk
+import multiprocessing
 
-from model import wordSchemaProcessingModel
+
+def bagOfWord(sentence: str):
+    # Delete the punctuations in the sentence
+    tokenizer = nltk.RegexpTokenizer(r"\w+")  # Regex Format
+    tokenizedSentence = tokenizer.tokenize(sentence.lower())
+    meaningfulTokenSet = []
+
+    nlStopWords = nltk.corpus.stopwords.words("english")
+    for sentFormatting in tokenizedSentence:
+        if sentFormatting not in nlStopWords:
+            meaningfulTokenSet.append(sentFormatting)
+
+    return meaningfulTokenSet
 
 
 def tf_vectorization(token: []) -> {}:
@@ -30,7 +44,7 @@ def idf_vectorization(token: [], dataFrame: pd.DataFrame) -> {}:
         raw_sentence, in_uniqueness = row['subjects'], []
 
         def sentence_preprocessing(sentence: str):
-            return wordSchemaProcessingModel.wordProcessingModel(sentence)
+            return bagOfWord(sentence)
 
         processed_sentence = sentence_preprocessing(raw_sentence)
 
@@ -54,13 +68,22 @@ def idf_vectorization(token: [], dataFrame: pd.DataFrame) -> {}:
 
 
 def tf_idf_vectorizer(raw_data: str, dataFrame: pd.DataFrame) -> {}:
-    token = wordSchemaProcessingModel.wordProcessingModel(raw_data)
+    token = bagOfWord(raw_data)
 
     TFIDF_score, TF_score, IDF_score = {}, tf_vectorization(token), idf_vectorization(token, dataFrame)
 
-    for word in token:
+    processes = []
+
+    def tf_idf() -> {}:
         # TF-IDF = TF(term) x IDF(term)
         TFIDF_score[word] = TF_score[word] * IDF_score[word]
 
-    return TFIDF_score
+    for word in token:
+        p = multiprocessing.Process(target=tf_idf(), args=(word,))
+        processes.append(p)
+        p.start()
 
+    for process in processes:
+        process.join()
+
+    return TFIDF_score

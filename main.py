@@ -1,6 +1,9 @@
 # Executable
-from algorithm import vectorization
-from model import wordSchemaProcessingModel, scoringModel
+import json
+import multiprocessing
+
+import algorithm.vectorization
+from model import scoringModel
 import dataIngestion
 
 if __name__ == '__main__':
@@ -11,6 +14,9 @@ if __name__ == '__main__':
     # print(scoringModel.combainedScoreModel(trainingData))
     # testModel.testAccuracy(trainingData, testData)
 
-    print(scoringModel.combainedScoreModel(trainingData))
+    # Export to file
+    file = open("feature_extracted_result_TF_IDF.txt", "w")
+    json.dump(scoringModel.combainedScoreModel(trainingData), file)
+    file.close()
 
 
