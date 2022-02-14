@@ -5,7 +5,7 @@ from model import predictionModel, scoringModel
 
 def testAccuracy(trainSet, testSet):
     resultSet = {}
-    scoreModel = scoringModel.combainedScoreModel(trainSet)
+    scoreModel = scoringModel.combinedScoreModel(trainSet)
 
     for _, row in testSet.T.items():
         testID, testStatement, testSentence = row['id'], row['statement'], row['subjects']

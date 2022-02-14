@@ -27,7 +27,7 @@ def wordScoringModel(rowData: {}):
     return scoreDict
 
 
-def combainedScoreModel(inputDataFrame: pd.DataFrame):
+def combinedScoreModel(inputDataFrame: pd.DataFrame):
     fullyScoringModel, uniqueness, processCounter = {}, [], 0
 
     for _, row in inputDataFrame.T.items():
@@ -47,5 +47,8 @@ def combainedScoreModel(inputDataFrame: pd.DataFrame):
         processCounter += 1
         print(f"Modeling Process: {processCounter} / {len(inputDataFrame)}")
 
-
     return fullyScoringModel
+
+
+def combinedScoreModel_type(inputDataFrame: pd.DataFrame):
+    return 0

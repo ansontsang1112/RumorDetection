@@ -3,6 +3,7 @@ import math
 import pandas as pd
 import nltk
 import multiprocessing
+from utils import stop_words as s
 
 
 def bagOfWord(sentence: str):
@@ -11,9 +12,8 @@ def bagOfWord(sentence: str):
     tokenizedSentence = tokenizer.tokenize(sentence.lower())
     meaningfulTokenSet = []
 
-    nlStopWords = nltk.corpus.stopwords.words("english")
     for sentFormatting in tokenizedSentence:
-        if sentFormatting not in nlStopWords:
+        if sentFormatting not in s.ENGLISH_STOP_WORDS:
             meaningfulTokenSet.append(sentFormatting)
 
     return meaningfulTokenSet
