@@ -4,7 +4,7 @@ import pandas as pd
 # Data Ingestion
 def readDataFrame(file):
     # Create Data Frame
-    df = pd.read_csv(file, delimiter='\t', dtype=object)
+    df = pd.read_csv(file, delimiter='\t', dtype=object, header=None)
 
     # Replace Null and NaN into empty string
     df.fillna("", inplace=True)

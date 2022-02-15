@@ -20,7 +20,6 @@ def save_unique_words_to_file(df: pd.DataFrame, path: str, statement: str):
                     word_list.append(w)
 
             counter += 1
-        print(f"{counter} / {len(df)}")
 
     try:
         full_path = path + statement + ".txt"
@@ -28,6 +27,8 @@ def save_unique_words_to_file(df: pd.DataFrame, path: str, statement: str):
         for word in word_list:
             f.write(word + "\n")
         f.close()
+
+        print(f"Unique Words for '{statement}' built at {path}")
 
     except Exception as e:
         print("write error: " + e)
@@ -38,12 +39,13 @@ def save_sentences_to_file(df: pd.DataFrame, path: str):
     sentences, counter = [], 0
 
     for _, rows in df.T.items():
-        f = open(path + "/" + str(int(rows['id']) - 1) + ".txt", 'w', encoding='utf-8')
+        f = open(path + "/" + rows['id'] + ".txt", 'w', encoding='utf-8')
         f.write(rows['subjects'])
         f.close()
 
         counter += 1
-        print(f"{counter} / {len(df)}")
+
+    print(f"Sentence Files was built at {path}")
 
 
 # Sentences Extractor
@@ -62,7 +64,7 @@ def save_sentences_to_one_file(df: pd.DataFrame, path: str):
 # save_unique_words_to_file(trainingData, "../files/indexes")
 
 # Get All Sentences from the dataset
-# save_sentences_to_file(trainingData, "../files/texts")
+# save_sentences_to_file(trainingData, "../files/word_list")
 
 # Get All Sentences from the dataset
 # save_sentences_to_one_file(trainingData, "../files/indexes")

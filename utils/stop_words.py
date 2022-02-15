@@ -32,4 +32,4 @@ ENGLISH_STOP_WORDS = {'a', 'about', 'above', 'across', 'after', 'afterwards', 'a
                       'whether', 'which', 'while', 'whither', 'who', 'whoever', 'whole', 'whom', 'whose', 'why', 'will',
                       'with', 'within', 'without', 'won', 'would', 'wouldn', 'y', 'yet', 'you', 'your', 'yours',
                       'yourself', 'yourselves', 'fifty', 'a', 'w', '5', 'u', '2', 'n', '4', '9', '6', '1', 'k', '8',
-                      '3', 'e', 'c', '7', 'v', 'b', 'x', '0', 'f', 'r', 'j', 'g', 'l', 'h', 'z', 'p', 'q', '⅔'}
+                      '3', 'e', 'c', '7', 'v', 'b', 'x', '0', 'f', 'r', 'j', 'g', 'l', 'h', 'z', 'p', 'q', '⅔', '000new'}
