@@ -13,7 +13,7 @@ if __name__ == '__main__':
     # testModel.testAccuracy(trainingData, testData)
 
     # Export to file
-    file = open("../feature_extracted_result_TF_IDF.txt", "w")
+    file = open("feature_extracted_result_TF_IDF.txt", "w")
     json.dump(scoringModel.combinedScoreModel(trainingData), file)
     file.close()
 

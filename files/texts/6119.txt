@@ -1,8 +1,0 @@
-Georgia has the most restrictive ballot access laws in the country.	elections	mary-n			independent	0	0	0	0	0	a television interview
-3666.json	false	On whether the federal debt limit should be raised	federal-budget	barack-obama	President	Illinois	democrat	70	71	160	163	9	an interview with George Stephanopoulos
-4608.json	half-true	When George W. Bush was governor of Texas, the percentage uninsured went down. Under his successor, Rick Perry, its gone up.	children,health-care,new-hampshire-2012	mitt-romney	Former governor	Massachusetts	republican	34	32	58	33	19	a Republicam debate in Hanover, N.H.
-11023.json	false	Says his book,The Art of the Deal,is the No. 1 selling business book of all time.	candidates-biography,job-accomplishments	donald-trump	President-Elect	New York	republican	63	114	51	37	61	remarks on CNN.
-2096.json	half-true	Democrats in the 1930s wanted President Franklin Roosevelt to be more conservative.	history,pundits,abc-news-week	george-will	Columnist	Maryland	columnist	7	6	3	5	1	a roundtable discussion on ABC's This Week
-12853.json	true	Says Danny Tarkanian wants to defund Planned Parenthood and would outlaw a womans right to choose, even in cases of rape or incest.	abortion	jacky-rosen		Nevada	democrat	0	0	0	0	0	a press release.
-12670.json	pants-fire	Condemning violence against the police and urging support for the police is markedly absent from President Barack Obamas public remarks.	criminal-justice	william-johnson			organization	0	0	0	0	1	an interview on Fox News
-1508.json	half-true	Florida leads the nation in elected officials charged with crimes."

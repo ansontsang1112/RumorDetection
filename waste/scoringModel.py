@@ -1,6 +1,6 @@
 import pandas as pd
 
-from algorithm import vectorization
+from utils import vectorization
 
 
 def scoring(string: str):
