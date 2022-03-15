@@ -1,4 +1,6 @@
 import pandas as pd
+from nltk import WordNetLemmatizer
+
 from utils import dataIngestion
 from algorithm import vectorization as v
 
@@ -6,32 +8,40 @@ pd.set_option("max_rows", 600)
 
 directory_path = "../files/texts"
 trainingData = dataIngestion.readDataFrame("../dataset/train2.tsv")
+testingData = dataIngestion.readDataFrame("../dataset/test2.tsv")
 
 
 # Unique Words Extractor
-def save_unique_words_to_file(df: pd.DataFrame, path: str, statement: str):
-    word_list, counter = [], 0
+def save_unique_words_to_file(df: pd.DataFrame, path: str, isTraining: bool):
+    word_list = []
+    wnl = WordNetLemmatizer()
 
-    for _, rows in df.T.items():
-        if rows['statement'] == statement:
-            bog = v.bagOfWord(rows['subjects'])
-            for w in bog:
-                if w not in word_list:
-                    word_list.append(w)
+    statements = ['true', 'mostly-true', 'half-true', 'barely-true', 'false', 'pants-fire']
 
-            counter += 1
+    for statement in statements:
+        for _, rows in df.T.items():
+            if rows['statement'] == statement:
+                bog = v.bagOfWord(rows['subjects'])
+                for w in bog:
+                    s = wnl.lemmatize(w)
+                    if s not in word_list:
+                        word_list.append(s)
 
-    try:
-        full_path = path + statement + ".txt"
-        f = open(full_path, 'w', encoding='utf-8')
-        for word in word_list:
-            f.write(word + "\n")
-        f.close()
+        try:
+            if isTraining:
+                full_path = path + statement + "_training.txt"
+            else:
+                full_path = path + statement + "_testing.txt"
 
-        print(f"Unique Words for '{statement}' built at {path}")
+            f = open(full_path, 'w', encoding='utf-8')
+            for word in word_list:
+                f.write(word + "\n")
+            f.close()
 
-    except Exception as e:
-        print("write error: " + e)
+            print(f"Unique Words for '{statement}' built at {path}")
+
+        except Exception as e:
+            print("write error: " + e)
 
 
 # Sentences Extractor
@@ -60,8 +70,10 @@ def save_sentences_to_one_file(df: pd.DataFrame, path: str):
 
     f.close()
 
+
 # Get Unique Words from the dataset
-# save_unique_words_to_file(trainingData, "../files/indexes")
+save_unique_words_to_file(trainingData, "../files/indexes/word_list/", True)
+save_unique_words_to_file(testingData, "../files/indexes/word_list/", False)
 
 # Get All Sentences from the dataset
 # save_sentences_to_file(trainingData, "../files/word_list")

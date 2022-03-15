@@ -1,6 +1,6 @@
 import math
 
-from model import predictionModel, scoringModel
+from waste import predictionModel, scoringModel
 
 
 def testAccuracy(trainSet, testSet):

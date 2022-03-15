@@ -1,7 +1,7 @@
 # Executable
 import json
 
-from model import scoringModel
+from waste import scoringModel
 from utils import dataIngestion
 
 if __name__ == '__main__':
