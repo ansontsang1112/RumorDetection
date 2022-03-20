@@ -1,6 +1,7 @@
 import nltk
 import pandas as pd
 from nltk import WordNetLemmatizer
+from sklearn.preprocessing import LabelEncoder
 
 from core.utils import config as c
 from core.utils import stop_words as s
@@ -33,6 +34,11 @@ def wordSeparation(listOfStrings: str):
     return listOfStrings.split(",")
 
 
+def feature_esncoder(feature: str):
+    encoder = LabelEncoder()
+    return
+
+
 # Data Preprocessing
 def data_preprocessing(corpus: pd.DataFrame, export_path: str, file_name: str):
     corpus['subjects'].dropna(inplace=True)  # Remove any blank rows subjects
@@ -44,7 +50,7 @@ def data_preprocessing(corpus: pd.DataFrame, export_path: str, file_name: str):
     corpus['bidirectional_statement'] = [bidirectional_labels(label) for label in
                                          corpus['statement']]  # Bi-directional Label
 
-    corpus['metadata_1_aspect'], corpus['metadata_2_speaker'] = [wordSeparation(entry) for entry in corpus['aspect']], corpus['speaker']
+    corpus['metadata_1_aspect'], corpus['metadata_2_speaker'] = [wordSeparation(entry) for entry in corpus['aspect']], LabelEncoder().fit_transform(corpus['speaker'])
     corpus['sj_feature'] = corpus['preprocessed'] + corpus['context_preprocessed']
 
     corpus.to_csv(f"{export_path}{file_name}", index=True,
