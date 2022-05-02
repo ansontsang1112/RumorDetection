@@ -6,10 +6,7 @@ from sklearn.preprocessing import LabelEncoder
 from core.utils import config as c
 from core.utils import stop_words as s
 
-pd.set_option("max_rows", 600)
 
-
-# Dimensional Managing
 def bidirectional_labels(label: str):
     if label == c.labels[0] or label == c.labels[1] or label == c.labels[2]:
         return "true"
@@ -34,9 +31,13 @@ def wordSeparation(listOfStrings: str):
     return listOfStrings.split(",")
 
 
-def feature_esncoder(feature: str):
-    encoder = LabelEncoder()
-    return
+def lstm_preprocessing(tokenized: []):
+    string = ""
+    if len(tokenized) == 0:
+        return "null"
+    for word in tokenized:
+        string += word + " "
+    return string
 
 
 # Data Preprocessing
@@ -50,16 +51,27 @@ def data_preprocessing(corpus: pd.DataFrame, export_path: str, file_name: str):
     corpus['bidirectional_statement'] = [bidirectional_labels(label) for label in
                                          corpus['statement']]  # Bi-directional Label
 
-    corpus['metadata_1_aspect'], corpus['metadata_2_speaker'] = [wordSeparation(entry) for entry in corpus['aspect']], LabelEncoder().fit_transform(corpus['speaker'])
+    corpus['metadata_1_aspect'], corpus['metadata_2_speaker'] = [wordSeparation(entry) for entry in
+                                                                 corpus['aspect']], LabelEncoder().fit_transform(
+        corpus['speaker'])
     corpus['sj_feature'] = corpus['preprocessed'] + corpus['context_preprocessed']
 
+    corpus['lstm_subjects'] = [lstm_preprocessing(entry) for entry in corpus['preprocessed']]
+    corpus['lstm_context'] = [lstm_preprocessing(entry) for entry in corpus['context_preprocessed']]
+    corpus['sj_combined'] = corpus['lstm_subjects'] + " " + corpus['lstm_context']
+
     corpus.to_csv(f"{export_path}{file_name}", index=True,
-                  columns=['subjects', 'preprocessed', 'context', 'context_preprocessed', 'metadata_1_aspect', 'metadata_2_speaker',
-                           'sj_feature', 'statement', 'bidirectional_statement'])
+                  columns=['subjects', 'lstm_subjects', 'preprocessed', 'context', 'context_preprocessed',
+                           'lstm_context', 'metadata_1_aspect',
+                           'metadata_2_speaker',
+                           'sj_feature', 'sj_combined', 'statement', 'bidirectional_statement'])
 
-    return corpus[['subjects', 'preprocessed', 'context', 'metadata_1_aspect', 'metadata_2_speaker',
-                   'context_preprocessed', 'sj_feature', 'statement', 'bidirectional_statement']]
+    return corpus[['subjects', 'lstm_subjects', 'preprocessed', 'context', 'context_preprocessed', 'lstm_context',
+                   'metadata_1_aspect',
+                   'metadata_2_speaker',
+                   'sj_feature', 'sj_combined', 'statement', 'bidirectional_statement']]
 
 
+data_preprocessing(c.val_data, "../../../files/core/preprocessed/", "val_set_preprocessed.csv")
 data_preprocessing(c.training_data, "../../../files/core/preprocessed/", "training_set_preprocessed.csv")
 data_preprocessing(c.testing_data, "../../../files/core/preprocessed/", "testing_set_preprocessed.csv")
