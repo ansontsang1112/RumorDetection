@@ -16,7 +16,7 @@ def eva_nn(model_bi, model_hex, x_test, y_test_bi, y_test_hex, title):
     eva_hex = model_hex.evaluate(x_test, y_test_hex)
 
     print(
-        f"\nF1 Score (2-Ways / 6-Ways): {eva_bi[2]} / {eva_hex[2]}")
+        f"\nF1 Score (2-Ways / 6-Ways): {eva_bi[2]} / {1 - eva_hex[2]}")
     print(
         f"Accuracy (2-Ways / 6-Ways): {round(eva_bi[1] * 100, 2)}% / {round(eva_hex[1] * 100, 2)}%")
 

@@ -59,17 +59,19 @@ def data_preprocessing(corpus: pd.DataFrame, export_path: str, file_name: str):
     corpus['lstm_subjects'] = [lstm_preprocessing(entry) for entry in corpus['preprocessed']]
     corpus['lstm_context'] = [lstm_preprocessing(entry) for entry in corpus['context_preprocessed']]
     corpus['sj_combined'] = corpus['lstm_subjects'] + " " + corpus['lstm_context']
+    corpus['sm_combined'] = corpus['lstm_subjects'] + " " + corpus['aspect'] + " " + corpus['speaker']
+    corpus['smj_combined'] = corpus['lstm_subjects'] + " " + corpus['lstm_context'] + " " + corpus['aspect'] + " " + corpus['speaker']
 
     corpus.to_csv(f"{export_path}{file_name}", index=True,
                   columns=['subjects', 'lstm_subjects', 'preprocessed', 'context', 'context_preprocessed',
                            'lstm_context', 'metadata_1_aspect',
                            'metadata_2_speaker',
-                           'sj_feature', 'sj_combined', 'statement', 'bidirectional_statement'])
+                           'sj_feature', 'sj_combined', 'sm_combined', 'smj_combined', 'statement', 'bidirectional_statement'])
 
     return corpus[['subjects', 'lstm_subjects', 'preprocessed', 'context', 'context_preprocessed', 'lstm_context',
                    'metadata_1_aspect',
                    'metadata_2_speaker',
-                   'sj_feature', 'sj_combined', 'statement', 'bidirectional_statement']]
+                   'sj_feature', 'sj_combined', 'sm_combined', 'smj_combined', 'statement', 'bidirectional_statement']]
 
 
 data_preprocessing(c.val_data, "../../../files/core/preprocessed/", "val_set_preprocessed.csv")
